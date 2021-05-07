@@ -8,5 +8,7 @@ abstract class  LocaleKeys {
   static const color = 'color';
   static const welcome = 'welcome';
   static const notfound = 'notfound';
+  static const add_to_Basket = 'add_to_Basket';
+  static const total_price = 'total_price';
 
 }

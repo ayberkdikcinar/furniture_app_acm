@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:furniture_app/service/product_service.dart';
+import 'package:furniture_app/view/basket/viewmodel/basket_viewmodel.dart';
+import 'package:furniture_app/view/product/viewmodel/product_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import 'core/constants/app/app_constants.dart';
@@ -17,9 +19,7 @@ void main() async {
   await ProductDatabaseProvider.instance?.initDb();
   runApp(
     MultiProvider(
-      providers: [
-        ...ApplicationProvider.instance!.dependItems,
-      ],
+      providers: [...ApplicationProvider.instance!.dependItems, ChangeNotifierProvider(create: (context) => BasketViewModel())],
       child: EasyLocalization(
           supportedLocales: LocalizationManager.instance!.supportedLocales,
           path: ApplicationConstants.LANGUAGES_ASSET_PATH,

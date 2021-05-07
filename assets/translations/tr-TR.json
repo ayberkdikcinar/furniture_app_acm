@@ -5,5 +5,7 @@
     "buy":"Satın Al",
     "color":"Renk",
     "welcome":"Hoşgeldin",
-    "notfound":"Bulunamadı"
+    "notfound":"Bulunamadı",
+    "add_to_Basket":"Sepete Ekle",
+    "total_price":"Toplam Tutar"
 }

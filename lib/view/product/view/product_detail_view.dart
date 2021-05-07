@@ -5,8 +5,10 @@ import 'package:furniture_app/core/components/container/custom_container.dart';
 import 'package:furniture_app/core/components/button/text_button_widget.dart';
 import 'package:furniture_app/core/extension/context_extension.dart';
 import 'package:furniture_app/core/init/localization/locale_keys.g.dart';
+import 'package:furniture_app/view/basket/viewmodel/basket_viewmodel.dart';
 import 'package:furniture_app/view/product/model/product_model.dart';
 import 'package:furniture_app/view/product/viewmodel/product_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailView extends StatelessWidget {
   final Product product;
@@ -15,6 +17,7 @@ class ProductDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _productViewModel = ProductViewModel();
+
     return Material(
       child: SafeArea(
         child: Scaffold(
@@ -95,7 +98,7 @@ class ProductDetailView extends StatelessWidget {
             Expanded(flex: 4, child: decriptionContainer(context)),
             context.emptySpaceLowHeight,
             priceProductText(viewmodel, context),
-            Expanded(flex: 4, child: buildButtomRow(context)),
+            Expanded(flex: 4, child: buildButtomRow(context, viewmodel)),
           ],
         ),
       ),
@@ -228,23 +231,41 @@ class ProductDetailView extends StatelessWidget {
     );
   }
 
-  Row buildButtomRow(BuildContext context) {
+  Row buildButtomRow(BuildContext context, ProductViewModel viewModel) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CircleAvatar(backgroundColor: context.theme.hoverColor, radius: 30),
-        buyButtonContainer(context),
+        context.emptySpaceLowWidth,
+        Expanded(child: buyButtonContainer(context)),
+        context.emptySpaceLowWidth,
+        Expanded(child: basketButtonContainer(context, viewModel)),
       ],
     );
   }
 
   Container buyButtonContainer(BuildContext context) {
     return Container(
-      height: context.highValue,
+      height: context.ultraMediumValue,
       width: context.highValueWidth,
       child: TexButtonWidget(
-        textSize: 25,
+        textSize: 16,
+        text: LocaleKeys.buy.tr(),
         onPressed: () {},
+      ),
+    );
+  }
+
+  Container basketButtonContainer(BuildContext context, ProductViewModel productViewModel) {
+    return Container(
+      height: context.ultraMediumValue,
+      width: context.highValueWidth,
+      child: TexButtonWidget(
+        textSize: 16,
+        text: LocaleKeys.add_to_Basket.tr(),
+        onPressed: () {
+          context.read<BasketViewModel>().addToBasket(product, productViewModel.count);
+        },
       ),
     );
   }

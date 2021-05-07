@@ -5,5 +5,7 @@
     "buy":"Buy",
     "color":"Color",
     "welcome":"Welcome",
-    "notfound":"Not Found"
+    "notfound":"Not Found",
+    "add_to_Basket":"Add to Basket",
+    "total_price":"Total Price"
 }

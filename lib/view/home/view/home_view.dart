@@ -184,6 +184,7 @@ class HomeView extends StatelessWidget {
     return Padding(
       padding: context.paddingLowHorizontal,
       child: TexButtonWidget(
+        text: LocaleKeys.buy.tr(),
         onPressed: () {},
       ),
     );

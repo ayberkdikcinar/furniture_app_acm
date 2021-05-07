@@ -1,15 +1,15 @@
 import 'package:furniture_app/core/extension/context_extension.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:furniture_app/core/init/localization/locale_keys.g.dart';
 
 class TexButtonWidget extends StatelessWidget {
   final Function() onPressed;
   final double? textSize;
+  final String? text;
   const TexButtonWidget({
     Key? key,
     required this.onPressed,
     this.textSize,
+    this.text,
   }) : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class TexButtonWidget extends StatelessWidget {
       style: ButtonStyle(
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(context.normalValue))),
       ),
-      child: Text(LocaleKeys.buy.tr(), style: TextStyle(color: context.theme.highlightColor, fontSize: textSize)),
+      child: Text(text ?? '', style: TextStyle(color: context.theme.highlightColor, fontSize: textSize)),
     );
   }
 }
