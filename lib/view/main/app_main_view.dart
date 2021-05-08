@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:furniture_app/core/constants/enums/durations_enum.dart';
 import 'package:furniture_app/core/extension/context_extension.dart';
 import 'package:furniture_app/core/init/localization/locale_keys.g.dart';
 import 'package:furniture_app/view/basket/view/basket_view.dart';
 import 'package:furniture_app/view/favorite/view/favorite_view.dart';
 import 'package:furniture_app/view/home/view/home_view.dart';
+import 'package:furniture_app/view/main/app_main_viewmodel.dart';
 
 class AppMainView extends StatefulWidget {
   const AppMainView({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class AppMainView extends StatefulWidget {
 
 class _AppMainViewState extends State<AppMainView> {
   final pageController = PageController();
+  final viewModel = AppMainViewModel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +76,7 @@ class _AppMainViewState extends State<AppMainView> {
   PageView buildPageView() {
     return PageView(
       onPageChanged: (value) {
-        setState(() {});
+        viewModel.setCurrent(value);
       },
       controller: pageController,
       children: [
@@ -90,21 +93,23 @@ class _AppMainViewState extends State<AppMainView> {
       height: context.ultraMediumValue,
       child: ClipRRect(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        child: CupertinoTabBar(
-          currentIndex: 0,
-          activeColor: context.theme.highlightColor,
-          backgroundColor: context.theme.accentColor,
-          onTap: (value) {
-            pageController.animateToPage(value, duration: DurationEnums.DURATIONLOW.rawwValue, curve: Curves.linearToEaseOut);
-            //setState(() {});
-          },
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home)),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_basket_outlined)),
-            BottomNavigationBarItem(icon: Icon(Icons.star_border_outlined)),
-            BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined)),
-          ],
-        ),
+        child: Observer(builder: (_) {
+          return CupertinoTabBar(
+            currentIndex: viewModel.current,
+            activeColor: context.theme.highlightColor,
+            backgroundColor: context.theme.accentColor,
+            onTap: (value) {
+              pageController.animateToPage(value, duration: DurationEnums.DURATIONLOW.rawwValue, curve: Curves.linearToEaseOut);
+              //setState(() {});
+            },
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.home)),
+              BottomNavigationBarItem(icon: Icon(Icons.shopping_basket_outlined)),
+              BottomNavigationBarItem(icon: Icon(Icons.star_border_outlined)),
+              BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined)),
+            ],
+          );
+        }),
       ),
     );
   }
