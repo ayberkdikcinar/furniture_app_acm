@@ -10,5 +10,6 @@ abstract class  LocaleKeys {
   static const notfound = 'notfound';
   static const add_to_cart = 'add_to_cart';
   static const total_price = 'total_price';
+  static const delete = 'delete';
 
 }

@@ -7,5 +7,6 @@
     "welcome":"Hoşgeldin",
     "notfound":"Bulunamadı",
     "add_to_cart":"Sepete Ekle",
-    "total_price":"Toplam Tutar"
+    "total_price":"Toplam Tutar",
+    "delete":"Sil"
 }

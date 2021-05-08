@@ -12,6 +12,7 @@ class FavoriteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _viewModel = Provider.of<FavoriteViewModel>(context);
+
     return Scaffold(
       body: ListView.builder(
         itemCount: _viewModel.favorites.length,
@@ -31,10 +32,26 @@ class FavoriteView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(_viewModel.favorites[index].title ?? ''),
-                    Text(_viewModel.favorites[index].price.toString()),
+                    Text('Price: ' + _viewModel.favorites[index].price.toString()),
+                    Text('Color: Red'),
+                    Text('Point: ' + _viewModel.favorites[index].point.toString()),
                   ],
                 ),
-                TexButtonWidget(onPressed: () {}, text: LocaleKeys.add_to_cart.tr())
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    PopupMenuButton(
+                      onSelected: (value) {
+                        _viewModel.removeFromFavorite(_viewModel.favorites[index]);
+                        //print(value);
+                      },
+                      itemBuilder: (context) {
+                        return _viewModel.choices.map((e) => PopupMenuItem(value: e, child: Text(e))).toList();
+                      },
+                    ),
+                    TexButtonWidget(onPressed: () {}, text: LocaleKeys.add_to_cart.tr())
+                  ],
+                ),
               ],
             ),
           ));
