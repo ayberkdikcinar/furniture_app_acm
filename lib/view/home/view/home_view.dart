@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:furniture_app/core/components/button/custom_category_button.dart';
+import 'package:furniture_app/core/components/button/like_button.dart';
 import 'package:furniture_app/core/components/container/custom_container.dart';
 import 'package:furniture_app/core/components/button/text_button_widget.dart';
 import 'package:furniture_app/core/components/text/text_field_search.dart';
@@ -11,9 +12,12 @@ import 'package:furniture_app/core/extension/context_extension.dart';
 import 'package:furniture_app/core/init/localization/locale_keys.g.dart';
 import 'package:furniture_app/core/init/navigation/navigation_service.dart';
 import 'package:furniture_app/service/product_service.dart';
+import 'package:furniture_app/view/basket/viewmodel/basket_viewmodel.dart';
+import 'package:furniture_app/view/favorite/viewmodel/favorite_viewmodel.dart';
 import 'package:furniture_app/view/home/viewmodel/home_viewmodel.dart';
 import 'package:furniture_app/view/product/model/product_model.dart';
 import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -90,7 +94,7 @@ class HomeView extends StatelessWidget {
             children: [
               positionedBacgroundContainer(context),
               positionedProductImage(product.image ?? '', product.id!, context),
-              positionedFavoruiteIcon(context),
+              positionedFavoruiteIcon(context, product),
             ],
           ),
         ),
@@ -101,7 +105,7 @@ class HomeView extends StatelessWidget {
         ),
         Expanded(
           flex: 2,
-          child: buyButtonRow(context),
+          child: buyButtonRow(context, product),
         )
       ],
     );
@@ -121,16 +125,26 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Positioned positionedFavoruiteIcon(BuildContext context) => Positioned(
+  Positioned positionedFavoruiteIcon(BuildContext context, Product product) => Positioned(
         right: 15,
         top: 15,
         child: CircleAvatar(
-          radius: 15,
-          backgroundColor: context.theme.highlightColor,
-          child: LikeButton(
-            size: 20.0,
-          ),
-        ),
+            radius: 15,
+            backgroundColor: context.theme.highlightColor,
+            child: CustomLikeButton(
+              initState: context.read<FavoriteViewModel>().isInclude(product),
+
+              /// eğer favorilerdeyse init state true olur.
+              onLikeTap: (value) {
+                if (value == true) {
+                  print('liked');
+                  context.read<FavoriteViewModel>().addToFavorite(product);
+                } else {
+                  context.read<FavoriteViewModel>().removeFromFavorite(product);
+                  print('unliked');
+                }
+              },
+            )),
       );
 
   Padding paddingProductNameText(BuildContext context, String title) {
@@ -170,22 +184,24 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Row buyButtonRow(BuildContext context) {
+  Row buyButtonRow(BuildContext context, Product product) {
     return Row(
       children: [
         Expanded(
-          child: paddingBuyButton(context),
+          child: paddingBuyButton(context, product),
         ),
       ],
     );
   }
 
-  Padding paddingBuyButton(BuildContext context) {
+  Padding paddingBuyButton(BuildContext context, Product product) {
     return Padding(
       padding: context.paddingLowHorizontal,
       child: TexButtonWidget(
-        text: LocaleKeys.buy.tr(),
-        onPressed: () {},
+        text: LocaleKeys.add_to_cart.tr(),
+        onPressed: () {
+          context.read<BasketViewModel>().addToBasket(product, 1);
+        },
       ),
     );
   }

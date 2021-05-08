@@ -5,6 +5,7 @@ import 'package:furniture_app/core/constants/enums/durations_enum.dart';
 import 'package:furniture_app/core/extension/context_extension.dart';
 import 'package:furniture_app/core/init/localization/locale_keys.g.dart';
 import 'package:furniture_app/view/basket/view/basket_view.dart';
+import 'package:furniture_app/view/favorite/view/favorite_view.dart';
 import 'package:furniture_app/view/home/view/home_view.dart';
 
 class AppMainView extends StatefulWidget {
@@ -78,7 +79,7 @@ class _AppMainViewState extends State<AppMainView> {
       children: [
         HomeView(),
         BasketView(),
-        Text(LocaleKeys.notfound.tr()),
+        FavoriteView(),
         Text(LocaleKeys.notfound.tr()),
       ],
     );

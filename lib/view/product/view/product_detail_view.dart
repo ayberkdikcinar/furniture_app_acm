@@ -237,22 +237,8 @@ class ProductDetailView extends StatelessWidget {
       children: [
         CircleAvatar(backgroundColor: context.theme.hoverColor, radius: 30),
         context.emptySpaceLowWidth,
-        Expanded(child: buyButtonContainer(context)),
-        context.emptySpaceLowWidth,
         Expanded(child: basketButtonContainer(context, viewModel)),
       ],
-    );
-  }
-
-  Container buyButtonContainer(BuildContext context) {
-    return Container(
-      height: context.ultraMediumValue,
-      width: context.highValueWidth,
-      child: TexButtonWidget(
-        textSize: 16,
-        text: LocaleKeys.buy.tr(),
-        onPressed: () {},
-      ),
     );
   }
 
@@ -262,7 +248,7 @@ class ProductDetailView extends StatelessWidget {
       width: context.highValueWidth,
       child: TexButtonWidget(
         textSize: 16,
-        text: LocaleKeys.add_to_Basket.tr(),
+        text: LocaleKeys.add_to_cart.tr(),
         onPressed: () {
           context.read<BasketViewModel>().addToBasket(product, productViewModel.count);
         },
